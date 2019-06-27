@@ -4,7 +4,7 @@ This project provides NLP tools based on LSTM for Multi-Lable Calssification of 
 
 To run the lstm classifier:
 
- python scripts/multi_label_classifier_lstm.py glove_path embedding_dim train_data_path test_data_path result_path train_embeddings
+ python scripts/multi_label_classifier_lstm.py <glove_path> <embedding_dim> <train_data_path> <test_data_path> <result_path> <train_embeddings>
 
  *train_embeddings: False (for CC), True (for CCOTF)
 
@@ -21,7 +21,8 @@ path to the embeddings of each model:
 
  SO:
 	Can be requested form the authors.
- SOAPI
+
+ SOAPI: 
 	Can be requested form the authors.
   
-t the complete dataset can be requested from the authors or should be scraped from the Internet.
+The complete dataset can be requested from the authors or should be scraped from the Internet.
