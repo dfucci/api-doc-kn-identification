@@ -1,0 +1,1185 @@
+"Copyright © 2001-2019 Python Software Foundation; All Rights Reserved"
+
+ID,text,functionality,concept,directives,purpose,quality,control,structure,patterns,codeExamples,environment,reference,nonInformation
+1,"The built-in str and unicode classes provide the ability to do complex variable substitutions and value formatting via the str.format() method described in PEP 3101. The Formatter class in the string module allows you to create and customize your own string formatting behaviors using the same implementation as the built-in format() method.
+ 
+ class string.Formatter
+ The Formatter class has the following public methods:
+ 
+ format(format_string, *args, **kwargs)
+ The primary API method. It takes a format string and an arbitrary set of positional and keyword arguments. It is just a wrapper that calls vformat().
+ 
+ vformat(format_string, args, kwargs)
+ This function does the actual work of formatting. It is exposed as a separate function for cases where you want to pass in a predefined dictionary of arguments, rather than unpacking and repacking the dictionary as individual arguments using the *args and **kwargs syntax. vformat() does the work of breaking up the format string into character data and replacement fields",1,1,0,0,0,0,1,0,0,0,1,1
+2,"re.compile(pattern, flags=0)
+ Compile a regular expression pattern into a regular expression object, which can be used for matching using its match() and search() methods, described below.
+ 
+ The expression’s behaviour can be modified by specifying a flags value. Values can be any of the following variables, combined using bitwise OR (the | operator).
+ 
+ The sequence
+ 
+ prog = re.compile(pattern)
+ result = prog.match(string)
+ is equivalent to
+ 
+ result = re.match(pattern, string)
+ but using re.compile() and saving the resulting regular expression object for reuse is more efficient when the expression will be used several times in a single program.
+ 
+ Note The compiled versions of the most recent patterns passed to re.match(), re.search() or re.compile() are cached, so programs that use only a few regular expressions at a time needn’t worry about compiling regular expressions.",1,0,0,1,1,1,0,0,1,0,0,0
+3,"class struct.Struct(format)
+ Return a new Struct object which writes and reads binary data according to the format string format. Creating a Struct object once and calling its methods is more efficient than calling the struct functions with the same format since the format string only needs to be compiled once.
+ 
+ New in version 2.5.",1,0,0,1,1,0,0,0,0,0,0,0
+4,"difflib.context_diff(a, b[, fromfile][, tofile][, fromfiledate][, tofiledate][, n][, lineterm])
+ Compare a and b (lists of strings); return a delta (a generator generating the delta lines) in context diff format.
+ 
+ Context diffs are a compact way of showing just the lines that have changed plus a few lines of context. The changes are shown in a before/after style. The number of context lines is set by n which defaults to three.
+ 
+ By default, the diff control lines (those with *** or ---) are created with a trailing newline. This is helpful so that inputs created from file.readlines() result in diffs that are suitable for use with file.writelines() since both the inputs and outputs have trailing newlines.
+ 
+ For inputs that do not have trailing newlines, set the lineterm argument to """" so that the output will be uniformly newline free.
+ 
+ The context diff format normally has a header for filenames and modification times. Any or all of these may be specified using strings for fromfile, tofile, fromfiledate, and tofiledate. The modification times are normally expressed in the ISO 8601 format. If not specified, the strings default to blanks.
+ 
+ >>> s1 = ['bacon\n', 'eggs\n', 'ham\n', 'guido\n']
+ >>> s2 = ['python\n', 'eggy\n', 'hamster\n', 'guido\n']
+ >>> for line in context_diff(s1, s2, fromfile='before.py', tofile='after.py'):
+ ... sys.stdout.write(line) 
+ *** before.py
+ --- after.py
+ ***************
+ *** 1,4 ****
+ ! bacon
+ ! eggs
+ ! ham
+  guido
+ --- 1,4 ----
+ ! python
+ ! eggy
+ ! hamster
+  guido
+ See A command-line interface to difflib for a more detailed example.",1,1,1,1,1,0,0,0,1,0,1,0
+5,"class StringIO.StringIO([buffer])
+ When a StringIO object is created, it can be initialized to an existing string by passing the string to the constructor. If no string is given, the StringIO will start empty. In both cases, the initial file position starts at zero.
+ 
+ The StringIO object can accept either Unicode or 8-bit strings, but mixing the two may take some care. If both are used, 8-bit strings that cannot be interpreted as 7-bit ASCII (that use the 8th bit) will cause a UnicodeError to be raised when getvalue() is called.",1,0,1,0,0,0,0,0,0,0,0,0
+6,"textwrap.wrap(text[, width[, ...]])
+ Wraps the single paragraph in text (a string) so every line is at most width characters long. Returns a list of output lines, without final newlines.
+ 
+ Optional keyword arguments correspond to the instance attributes of TextWrapper, documented below. width defaults to 70.
+ 
+ See the TextWrapper.wrap() method for additional details on how wrap() behaves.",1,0,0,0,0,0,1,0,0,0,0,0
+7,"codecs.getencoder(encoding)
+ Look up the codec for the given encoding and return its encoder function.
+ 
+ Raises a LookupError in case the encoding cannot be found.",1,0,0,0,0,0,0,0,0,0,0,0
+8,"unicodedata.normalize(form, unistr)
+ Return the normal form form for the Unicode string unistr. Valid values for form are ‘NFC’, ‘NFKC’, ‘NFD’, and ‘NFKD’.
+ 
+ The Unicode standard defines various normalization forms of a Unicode string, based on the definition of canonical equivalence and compatibility equivalence. In Unicode, several characters can be expressed in various way. For example, the character U+00C7 (LATIN CAPITAL LETTER C WITH CEDILLA) can also be expressed as the sequence U+0043 (LATIN CAPITAL LETTER C) U+0327 (COMBINING CEDILLA).
+ 
+ For each character, there are two normal forms: normal form C and normal form D. Normal form D (NFD) is also known as canonical decomposition, and translates each character into its decomposed form. Normal form C (NFC) first applies a canonical decomposition, then composes pre-combined characters again.
+ 
+ In addition to these two forms, there are two additional normal forms based on compatibility equivalence. In Unicode, certain characters are supported which normally would be unified with other characters. For example, U+2160 (ROMAN NUMERAL ONE) is really the same thing as U+0049 (LATIN CAPITAL LETTER I). However, it is supported in Unicode for compatibility with existing character sets (e.g. gb2312).
+ 
+ The normal form KD (NFKD) will apply the compatibility decomposition, i.e. replace all compatibility characters with their equivalents. The normal form KC (NFKC) first applies the compatibility decomposition, followed by the canonical composition.
+ 
+ Even if two unicode strings are normalized and look the same to a human reader, if one has combining characters and the other doesn’t, they may not compare equal.
+ 
+ New in version 2.3.",1,1,1,1,0,0,0,0,0,0,0,1
+9,"When identifying things (such as host names) in the internet, it is often necessary to compare such identifications for “equality”. Exactly how this comparison is executed may depend on the application domain, e.g. whether it should be case-insensitive or not. It may be also necessary to restrict the possible identifications, to allow only identifications consisting of “printable” characters.
+ 
+ RFC 3454 defines a procedure for “preparing” Unicode strings in internet protocols. Before passing strings onto the wire, they are processed with the preparation procedure, after which they have a certain normalized form. The RFC defines a set of tables, which can be combined into profiles. Each profile must define which tables it uses, and what other optional parts of the stringprep procedure are part of the profile. One example of a stringprep profile is nameprep, which is used for internationalized domain names.
+ 
+ The module stringprep only exposes the tables from RFC 3454. As these tables would be very large to represent them as dictionaries or lists, the module uses the Unicode character database internally. The module source code itself was generated using the mkstringprep.py utility.
+ 
+ As a result, these tables are exposed as functions, not as data structures. There are two kinds of tables in the RFC: sets and mappings. For a set, stringprep provides the “characteristic function”, i.e. a function that returns true if the parameter is part of the set. For mappings, it provides the mapping function: given the key, it returns the associated value. Below is a list of all functions available in the modul",0,1,0,1,0,1,1,0,0,1,1,0
+10,"date.ctime()¶
+ Return a string representing the date, for example date(2002, 12, 4).ctime() == 'Wed Dec 4 00:00:00 2002'. d.ctime() is equivalent to time.ctime(time.mktime(d.timetuple())) on platforms where the native C ctime() function (which time.ctime() invokes, but which date.ctime() does not invoke) conforms to the C standard.",1,0,0,0,0,0,0,0,1,1,1,0
+11,"calendar.setfirstweekday(weekday)
+ Sets the weekday (0 is Monday, 6 is Sunday) to start each week. The values MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, and SUNDAY are provided for convenience. For example, to set the first weekday to Sunday:
+ 
+ import calendar
+ calendar.setfirstweekday(calendar.SUNDAY)
+ New in version 2.0.",1,0,0,0,0,0,0,1,1,0,0,0
+12,"class collections.deque([iterable[, maxlen]])
+ Returns a new deque object initialized left-to-right (using append()) with data from iterable. If iterable is not specified, the new deque is empty.
+ 
+ Deques are a generalization of stacks and queues (the name is pronounced “deck” and is short for “double-ended queue”). Deques support thread-safe, memory efficient appends and pops from either side of the deque with approximately the same O(1) performance in either direction.
+ 
+ Though list objects support similar operations, they are optimized for fast fixed-length operations and incur O(n) memory movement costs for pop(0) and insert(0, v) operations which change both the size and position of the underlying data representation.
+ 
+ New in version 2.4.
+ 
+ If maxlen is not specified or is None, deques may grow to an arbitrary length. Otherwise, the deque is bounded to the specified maximum length. Once a bounded length deque is full, when new items are added, a corresponding number of items are discarded from the opposite end. Bounded length deques provide functionality similar to the tail filter in Unix. They are also useful for tracking transactions and other pools of data where only the most recent activity is of interest.
+ 
+ Changed in version 2.6: Added maxlen parameter.",1,1,0,1,1,0,1,0,0,0,0,0
+13,"bisect.bisect_left(a, x, lo=0, hi=len(a))
+ Locate the insertion point for x in a to maintain sorted order. The parameters lo and hi may be used to specify a subset of the list which should be considered; by default the entire list is used. If x is already present in a, the insertion point will be before (to the left of) any existing entries. The return value is suitable for use as the first parameter to list.insert() assuming that a is already sorted.
+ 
+ The returned insertion point i partitions the array a into two halves so that all(val < x for val in a[lo:i]) for the left side and all(val >= x for val in a[i:hi]) for the right side.
+ bisect.bisect_left(a, x, lo=0, hi=len(a))
+ Locate the insertion point for x in a to maintain sorted order. The parameters lo and hi may be used to specify a subset of the list which should be considered; by default the entire list is used. If x is already present in a, the insertion point will be before (to the left of) any existing entries. The return value is suitable for use as the first parameter to list.insert() assuming that a is already sorted.
+ 
+ The returned insertion point i partitions the array a into two halves so that all(val < x for val in a[lo:i]) for the left side and all(val >= x for val in a[i:hi]) for the right side.
+ bisect.bisect_left(a, x, lo=0, hi=len(a))",1,1,0,0,0,0,0,1,0,0,0,0
+14,"The sched module defines a class which implements a general purpose event scheduler:
+ 
+ class sched.scheduler(timefunc, delayfunc)
+ The scheduler class defines a generic interface to scheduling events. It needs two functions to actually deal with the “outside world” — timefunc should be callable without arguments, and return a number (the “time”, in any units whatsoever). The delayfunc function should be callable with one argument, compatible with the output of timefunc, and should delay that many time units. delayfunc will also be called with the argument 0 after each event is run to allow other threads an opportunity to run in multi-threaded applications.
+ 
+ Example:
+ 
+ >>> import sched, time
+ >>> s = sched.scheduler(time.time, time.sleep)
+ >>> def print_time(): print ""From print_time"", time.time()
+ ...
+ >>> def print_some_times():
+ ... print time.time()
+ ... s.enter(5, 1, print_time, ())
+ ... s.enter(10, 1, print_time, ())
+ ... s.run()
+ ... print time.time()
+ ...
+ >>> print_some_times()
+ 930343690.257
+ From print_time 930343695.274
+ From print_time 930343700.273
+ 930343700.276",1,1,1,1,0,1,1,0,1,0,0,0
+15,"class Queue.PriorityQueue(maxsize=0)
+ Constructor for a priority queue. maxsize is an integer that sets the upperbound limit on the number of items that can be placed in the queue. Insertion will block once this size has been reached, until queue items are consumed. If maxsize is less than or equal to zero, the queue size is infinite.
+ 
+ The lowest valued entries are retrieved first (the lowest valued entry is the one returned by sorted(list(entries))[0]). A typical pattern for entries is a tuple in the form: (priority_number, data).",1,0,0,0,0,1,0,1,1,0,0,1
+16,"class weakref.WeakKeyDictionary([dict])
+ Mapping class that references keys weakly. Entries in the dictionary will be discarded when there is no longer a strong reference to the key. This can be used to associate additional data with an object owned by other parts of an application without adding attributes to those objects. This can be especially useful with objects that override attribute accesses.
+ 
+ Note Caution: Because a WeakKeyDictionary is built on top of a Python dictionary, it must not change size when iterating over it. This can be difficult to ensure for a WeakKeyDictionary because actions performed by the program during iteration may cause items in the dictionary to vanish “by magic” (as a side effect of garbage collection).
+ WeakKeyDictionary objects have the following additional methods. These expose the internal references directly. The references are not guaranteed to be “live” at the time they are used, so the result of calling the references needs to be checked before being used. This can be used to avoid creating references that will cause the garbage collector to keep the keys around longer than needed.",1,0,1,0,0,1,1,1,0,0,0,1
+17,"This module defines a class that acts as a wrapper around list objects. It is a useful base class for your own list-like classes, which can inherit from them and override existing methods or add new ones. In this way one can add new behaviors to lists.
+ 
+ The UserList module defines the UserList class:
+ 
+ class UserList.UserList([list])
+ Class that simulates a list. The instance’s contents are kept in a regular list, which is accessible via the data attribute of UserList instances. The instance’s contents are initially set to a copy of list, defaulting to the empty list []. list can be any iterable, e.g. a real Python list or a UserList object.
+ 
+ Note The UserList class has been moved to the collections module in Python 3. The 2to3 tool will automatically adapt imports when converting your sources to Python 3.
+ In addition to supporting the methods and operations of mutable sequences (see section Sequence Types — str, unicode, list, tuple, bytearray, buffer, xrange), UserList instances provide the following attribute:
+ 
+ UserList.data
+ A real Python list object used to store the contents of the UserList class.",1,0,0,1,0,0,1,1,0,1,0,1
+18,"types.GeneratorType
+ The type of generator-iterator objects, produced by calling a generator function.",0,0,0,0,0,0,0,0,0,0,0,0
+19,"Assignment statements in Python do not copy objects, they create bindings between a target and an object. For collections that are mutable or contain mutable items, a copy is sometimes needed so one can change one copy without changing the other. This module provides generic shallow and deep copy operations (explained below).
+ 
+ Interface summary:
+ 
+ copy.copy(x)
+ Return a shallow copy of x.
+ 
+ copy.deepcopy(x)
+ Return a deep copy of x.
+ 
+ exception copy.error
+ Raised for module specific errors.
+ 
+ The difference between shallow and deep copying is only relevant for compound objects (objects that contain other objects, like lists or class instances):
+ 
+ A shallow copy constructs a new compound object and then (to the extent possible) inserts references into it to the objects found in the original.
+ A deep copy constructs a new compound object and then, recursively, inserts copies into it of the objects found in the original.
+ Two problems often exist with deep copy operations that don’t exist with shallow copy operations:
+ 
+ Recursive objects (compound objects that, directly or indirectly, contain a reference to themselves) may cause a recursive loop.
+ Because deep copy copies everything it may copy too much, such as data which is intended to be shared between copies.
+ The deepcopy() function avoids these problems by:
+ 
+ keeping a “memo” dictionary of objects already copied during the current copying pass; and
+ letting user-defined classes override the copying operation or the set of components copied.
+ This module does not copy types like module, method, stack trace, stack frame, file, socket, window, array, or any similar types. It does “copy” functions and classes (shallow and deeply), by returning the original object unchanged; this is compatible with the way these are treated by the pickle module.
+ 
+ Shallow copies of dictionaries can be made using dict.copy(), and of lists by assigning a slice of the entire list, for example, copied_list = original_list[:].
+ 
+ Changed in version 2.5: Added copying functions.
+ 
+ Classes can use the same interfaces to control copying that they use to control pickling. See the description of module pickle for information on these methods. The copy module does not use the copy_reg registration module.
+ 
+ In order for a class to define its own copy implementation, it can define special methods __copy__() and __deepcopy__(). The former is called to implement the shallow copy operation; no additional arguments are passed. The latter is called to implement the deep copy operation; it is passed one argument, the memo dictionary. If the __deepcopy__() implementation needs to make a deep copy of a component, it should call the deepcopy() function with the component as first argument and the memo dictionary as second argument.",1,1,0,1,0,1,1,1,1,0,0,0
+20,"class pprint.PrettyPrinter(indent=1, width=80, depth=None, stream=None)¶
+ Construct a PrettyPrinter instance. This constructor understands several keyword parameters. An output stream may be set using the stream keyword; the only method used on the stream object is the file protocol’s write() method. If not specified, the PrettyPrinter adopts sys.stdout. Three additional parameters may be used to control the formatted representation. The keywords are indent, depth, and width. The amount of indentation added for each recursive level is specified by indent; the default is one. Other values can cause output to look a little odd, but can make nesting easier to spot. The number of levels which may be printed is controlled by depth; if the data structure being printed is too deep, the next contained level is replaced by .... By default, there is no constraint on the depth of the objects being formatted. The desired output width is constrained using the width parameter; the default is 80 characters. If a structure cannot be formatted within the constrained width, a best effort will be made.
+ 
+ >>> import pprint
+ >>> stuff = ['spam', 'eggs', 'lumberjack', 'knights', 'ni']
+ >>> stuff.insert(0, stuff[:])
+ >>> pp = pprint.PrettyPrinter(indent=4)
+ >>> pp.pprint(stuff)
+ [ ['spam', 'eggs', 'lumberjack', 'knights', 'ni'],
+  'spam',
+  'eggs',
+  'lumberjack',
+  'knights',
+  'ni']
+ >>> tup = ('spam', ('eggs', ('lumberjack', ('knights', ('ni', ('dead',
+ ... ('parrot', ('fresh fruit',))))))))
+ >>> pp = pprint.PrettyPrinter(depth=6)
+ >>> pp.pprint(tup)
+ ('spam', ('eggs', ('lumberjack', ('knights', ('ni', ('dead', (...)))))))",1,0,0,0,0,0,0,1,1,0,0,1
+21,"math.fsum(iterable)
+ Return an accurate floating point sum of values in the iterable. Avoids loss of precision by tracking multiple intermediate partial sums:
+ 
+ >>> sum([.1, .1, .1, .1, .1, .1, .1, .1, .1, .1])
+ 0.9999999999999999
+ >>> fsum([.1, .1, .1, .1, .1, .1, .1, .1, .1, .1])
+ 1.0
+ The algorithm’s accuracy depends on IEEE-754 arithmetic guarantees and the typical case where the rounding mode is half-even. On some non-Windows builds, the underlying C library uses extended precision addition and may occasionally double-round an intermediate sum causing it to be off in its least significant bit.
+ 
+ For further discussion and two alternative approaches, see the ASPN cookbook recipes for accurate floating point summation.
+ 
+ New in version 2.6.",1,0,0,0,0,0,0,0,1,1,1,0
+22,"cmath.phase(x)
+ Return the phase of x (also known as the argument of x), as a float. phase(x) is equivalent to math.atan2(x.imag, x.real). The result lies in the range [-?, ?], and the branch cut for this operation lies along the negative real axis, continuous from above. On systems with support for signed zeros (which includes most systems in current use), this means that the sign of the result is the same as the sign of x.imag, even when x.imag is zero:
+ 
+ >>> phase(complex(-1.0, 0.0))
+ 3.1415926535897931
+ >>> phase(complex(-1.0, -0.0))
+ -3.1415926535897931",1,1,0,0,0,0,0,0,1,0,0,0
+23,"limit_denominator(max_denominator=1000000)
+ Finds and returns the closest Fraction to self that has denominator at most max_denominator. This method is useful for finding rational approximations to a given floating-point number:
+ 
+ >>> from fractions import Fraction
+ >>> Fraction('3.1415926535897932').limit_denominator(1000)
+ Fraction(355, 113)
+ or for recovering a rational number that’s represented as a float:
+ 
+ >>> from math import pi, cos
+ >>> Fraction(cos(pi/3))
+ Fraction(4503599627370497, 9007199254740992)
+ >>> Fraction(cos(pi/3)).limit_denominator()
+ Fraction(1, 2)
+ >>> Fraction(1.1).limit_denominator()
+ Fraction(11, 10)",1,0,0,1,0,0,0,1,1,0,0,0
+24,"random.uniform(a, b)
+ Return a random floating point number N such that a <= N <= b for a <= b and b <= N <= a for b < a.
+ 
+ The end-point value b may or may not be included in the range depending on floating-point rounding in the equation a + (b-a) * random().
+",1,0,0,0,0,0,0,0,0,0,0,0
+25,"functools.partial(func[,*args][, **keywords])
+ Return a new partial object which when called will behave like func called with the positional arguments args and keyword arguments keywords. If more arguments are supplied to the call, they are appended to args. If additional keyword arguments are supplied, they extend and override keywords. Roughly equivalent to:
+ 
+ def partial(func, *args, **keywords):
+  def newfunc(*fargs, **fkeywords):
+  newkeywords = keywords.copy()
+  newkeywords.update(fkeywords)
+  return func(*(args + fargs), **newkeywords)
+  newfunc.func = func
+  newfunc.args = args
+  newfunc.keywords = keywords
+  return newfunc
+ The partial() is used for partial function application which “freezes” some portion of a function’s arguments and/or keywords resulting in a new object with a simplified signature. For example, partial() can be used to create a callable that behaves like the int() function where the base argument defaults to two:
+ 
+ >>> from functools import partial
+ >>> basetwo = partial(int, base=2)
+ >>> basetwo.__doc__ = 'Convert base 2 string to an int.'
+ >>> basetwo('10010')
+ 18",1,0,0,1,0,0,0,1,1,0,0,0
+26,"os.path.join(path, *paths)
+ Join one or more path components intelligently. The return value is the concatenation of path and any members of *paths with exactly one directory separator (os.sep) following each non-empty part except the last, meaning that the result will only end in a separator if the last part is empty. If a component is an absolute path, all previous components are thrown away and joining continues from the absolute path component.
+ 
+ On Windows, the drive letter is not reset when an absolute path component (e.g., r'\foo') is encountered. If a component contains a drive letter, all previous components are thrown away and the drive letter is reset. Note that since there is a current directory for each drive, os.path.join(""c:"", ""foo"") represents a path relative to the current directory on drive C: (c:foo), not c:\foo.",1,0,0,0,0,0,0,0,1,1,0,1
+27,"The stat module defines constants and functions for interpreting the results of os.stat(), os.fstat() and os.lstat() (if they exist). For complete details about the stat(), fstat() and lstat() calls, consult the documentation for your syste",0,0,0,0,0,0,1,0,0,0,0,0
+28,"filecmp.cmpfiles(dir1, dir2, common[, shallow])
+ Compare the files in the two directories dir1 and dir2 whose names are given by common.
+ 
+ Returns three lists of file names: match, mismatch, errors. match contains the list of files that match, mismatch contains the names of those that don’t, and errors lists the names of files which could not be compared. Files are listed in errors if they don’t exist in one of the directories, the user lacks permission to read them or if the comparison could not be done for some other reason.
+ 
+ The shallow parameter has the same meaning and default value as for filecmp.cmp().
+ 
+ For example, cmpfiles('a', 'b', ['c', 'd/e']) will compare a/c with b/c and a/d/e with b/d/e. 'c' and 'd/e' will each be in one of the three returned lists.
+ 
+ Example:
+ 
+ >>> import filecmp
+ >>> filecmp.cmp('undoc.rst', 'undoc.rst') 
+ True
+ >>> filecmp.cmp('undoc.rst', 'index.rst') 
+ False",1,0,0,0,0,0,0,1,1,0,0,1
+29,"tempfile.mkstemp(suffix=None, prefix=None, dir=None, text=False)
+ Creates a temporary file in the most secure manner possible. There are no race conditions in the file’s creation, assuming that the platform properly implements the os.O_EXCL flag for os.open(). The file is readable and writable only by the creating user ID. If the platform uses permission bits to indicate whether a file is executable, the file is executable by no one. The file descriptor is not inherited by child processes.
+ 
+ Unlike TemporaryFile(), the user of mkstemp() is responsible for deleting the temporary file when done with it.
+ 
+ If suffix is not None, the file name will end with that suffix, otherwise there will be no suffix. mkstemp() does not put a dot between the file name and the suffix; if you need one, put it at the beginning of suffix.
+ 
+ If prefix is not None, the file name will begin with that prefix; otherwise, a default prefix is used. The default is the return value of gettempprefix() or gettempprefixb(), as appropriate.
+ 
+ If dir is not None, the file will be created in that directory; otherwise, a default directory is used. The default directory is chosen from a platform-dependent list, but the user of the application can control the directory location by setting the TMPDIR, TEMP or TMP environment variables. There is thus no guarantee that the generated filename will have any nice properties, such as not requiring quoting when passed to external commands via os.popen().
+ 
+ If any of suffix, prefix, and dir are not None, they must be the same type. If they are bytes, the returned name will be bytes instead of str. If you want to force a bytes return value with otherwise default behavior, pass suffix=b''.
+ 
+ If text is specified, it indicates whether to open the file in binary mode (the default) or text mode. On some platforms, this makes no difference.
+ 
+ mkstemp() returns a tuple containing an OS-level handle to an open file (as would be returned by os.open()) and the absolute pathname of that file, in that order.
+ 
+ Changed in version 3.5: suffix, prefix, and dir may now be supplied in bytes in order to obtain a bytes return value. Prior to this, only str was allowed. suffix and prefix now accept and default to None to cause an appropriate default value to be used.",1,0,1,1,1,0,1,0,0,0,0,0
+30,"linecache.getline(filename, lineno[, module_globals])
+ Get line lineno from file named filename. This function will never raise an exception — it will return '' on errors (the terminating newline character will be included for lines that are found).
+ 
+ If a file named filename is not found, the function will look for it in the module search path, sys.path, after first checking for a PEP 302 __loader__ in module_globals, in case the module was imported from a zipfile or other non-filesystem import source.
+ 
+ New in version 2.5: The module_globals parameter was added.",1,0,0,0,1,0,1,0,0,0,1,1
+31,"The shutil module offers a number of high-level operations on files and collections of files. In particular, functions are provided which support file copying and removal. For operations on individual files, see also the os module.
+ 
+ Warning Even the higher-level file copying functions (shutil.copy(), shutil.copy2()) can’t copy all file metadata.
+ On POSIX platforms, this means that file owner and group are lost as well as ACLs. On Mac OS, the resource fork and other metadata are not used. This means that resources will be lost and file type and creator codes will not be correct. On Windows, file owners, ACLs and alternate data streams are not copied.",0,0,0,0,1,0,0,0,0,1,0,0
+32,"pickle.load(file, *, fix_imports=True, encoding=""ASCII"", errors=""strict"")
+ Read a pickled object representation from the open file object file and return the reconstituted object hierarchy specified therein. This is equivalent to Unpickler(file).load().
+ 
+ The protocol version of the pickle is detected automatically, so no protocol argument is needed. Bytes past the pickled object’s representation are ignored.
+ 
+ The argument file must have two methods, a read() method that takes an integer argument, and a readline() method that requires no arguments. Both methods should return bytes. Thus file can be an on-disk file opened for binary reading, an io.BytesIO object, or any other custom object that meets this interface.
+ 
+ Optional keyword arguments are fix_imports, encoding and errors, which are used to control compatibility support for pickle stream generated by Python 2. If fix_imports is true, pickle will try to map the old Python 2 names to the new names used in Python 3. The encoding and errors tell pickle how to decode 8-bit string instances pickled by Python 2; these default to ‘ASCII’ and ‘strict’, respectively. The encoding can be ‘bytes’ to read these 8-bit string instances as bytes objects.",1,0,1,1,0,0,1,0,0,1,0,0
+33,"shelve.open(filename, flag='c', protocol=None, writeback=False)
+ Open a persistent dictionary. The filename specified is the base filename for the underlying database. As a side-effect, an extension may be added to the filename and more than one file may be created. By default, the underlying database file is opened for reading and writing. The optional flag parameter has the same interpretation as the flag parameter of anydbm.open().
+ 
+ By default, version 0 pickles are used to serialize values. The version of the pickle protocol can be specified with the protocol parameter.
+ 
+ Changed in version 2.3: The protocol parameter was added.
+ 
+ Because of Python semantics, a shelf cannot know when a mutable persistent-dictionary entry is modified. By default modified objects are written only when assigned to the shelf (see Example). If the optional writeback parameter is set to True, all entries accessed are also cached in memory, and written back on sync() and close(); this can make it handier to mutate mutable entries in the persistent dictionary, but, if many entries are accessed, it can consume vast amounts of memory for the cache, and it can make the close operation very slow since all accessed entries are written back (there is no way to determine which accessed entries are mutable, nor which ones were actually mutated).
+ 
+ Like file objects, shelve objects should be closed explicitly to ensure that the persistent data is flushed to disk.
+ 
+ Warning Because the shelve module is backed by pickle, it is insecure to load a shelf from an untrusted source. Like with pickle, loading a shelf can execute arbitrary code.",1,1,1,1,1,0,1,0,0,0,0,0
+34,"This module contains functions that can read and write Python values in a binary format. The format is specific to Python, but independent of machine architecture issues (e.g., you can write a Python value to a file on a PC, transport the file to a Sun, and read it back there). Details of the format are undocumented on purpose; it may change between Python versions (although it rarely does). [1]
+ 
+ This is not a general “persistence” module. For general persistence and transfer of Python objects through RPC calls, see the modules pickle and shelve. The marshal module exists mainly to support reading and writing the “pseudo-compiled” code for Python modules of .pyc files. Therefore, the Python maintainers reserve the right to modify the marshal format in backward incompatible ways should the need arise. If you’re serializing and de-serializing Python objects, use the pickle module instead – the performance is comparable, version independence is guaranteed, and pickle supports a substantially wider range of objects than marshal.",0,1,0,1,1,0,0,0,0,0,0,0
+35,"dumbdbm.open(filename[, flag[, mode]])
+ Open a dumbdbm database and return a dumbdbm object. The filename argument is the basename of the database file (without any specific extensions). When a dumbdbm database is created, files with .dat and .dir extensions are created.
+ 
+ The optional flag argument is currently ignored; the database is always opened for update, and will be created if it does not exist.
+ 
+ The optional mode argument is the Unix mode of the file, used only when the database has to be created. It defaults to octal 0666 (and will be modified by the prevailing umask).
+ 
+ Changed in version 2.2: The mode argument was ignored in earlier versions.",1,0,1,0,0,1,0,0,0,0,0,0
+36,"New in version 2.5.
+ 
+ SQLite is a C library that provides a lightweight disk-based database that doesn’t require a separate server process and allows accessing the database using a nonstandard variant of the SQL query language. Some applications can use SQLite for internal data storage. It’s also possible to prototype an application using SQLite and then port the code to a larger database such as PostgreSQL or Oracle.
+ 
+ The sqlite3 module was written by Gerhard Häring. It provides a SQL interface compliant with the DB-API 2.0 specification described by PEP 249.
+ 
+ To use the module, you must first create a Connection object that represents the database. Here the data will be stored in the example.db file:
+ 
+ import sqlite3
+ conn = sqlite3.connect('example.db')
+ You can also supply the special name :memory: to create a database in RAM.
+ 
+ Once you have a Connection, you can create a Cursor object and call its execute() method to perform SQL commands:
+ 
+ c = conn.cursor()
+ 
+ # Create table
+ c.execute('''CREATE TABLE stocks
+  (date text, trans text, symbol text, qty real, price real)''')
+ 
+ # Insert a row of data
+ c.execute(""INSERT INTO stocks VALUES ('2006-01-05','BUY','RHAT',100,35.14)"")
+ 
+ # Save (commit) the changes
+ conn.commit()
+ 
+ # We can also close the connection if we are done with it.
+ # Just be sure any changes have been committed or they will be lost.
+ conn.close()
+ The data you’ve saved is persistent and is available in subsequent sessions:
+ 
+ import sqlite3
+ conn = sqlite3.connect('example.db')
+ c = conn.cursor()
+ Usually your SQL operations will need to use values from Python variables. You shouldn’t assemble your query using Python’s string operations because doing so is insecure; it makes your program vulnerable to an SQL injection attack (see https://xkcd.com/327/ for humorous example of what can go wrong).
+ 
+ Instead, use the DB-API’s parameter substitution. Put ? as a placeholder wherever you want to use a value, and then provide a tuple of values as the second argument to the cursor’s execute() method. (Other database modules may use a different placeholder, such as %s or :1.) For example:
+ 
+ # Never do this -- insecure!
+ symbol = 'RHAT'
+ c.execute(""SELECT * FROM stocks WHERE symbol = '%s'"" % symbol)
+ 
+ # Do this instead
+ t = ('RHAT',)
+ c.execute('SELECT * FROM stocks WHERE symbol=?', t)
+ print c.fetchone()
+ 
+ # Larger example that inserts many records at a time
+ purchases = [('2006-03-28', 'BUY', 'IBM', 1000, 45.00),
+  ('2006-04-05', 'BUY', 'MSFT', 1000, 72.00),
+  ('2006-04-06', 'SELL', 'IBM', 500, 53.00),
+  ]
+ c.executemany('INSERT INTO stocks VALUES (?,?,?,?,?)', purchases)
+ To retrieve data after executing a SELECT statement, you can either treat the cursor as an iterator, call the cursor’s fetchone() method to retrieve a single matching row, or call fetchall() to get a list of the matching rows.
+ 
+ This example uses the iterator form:
+ 
+ >>> for row in c.execute('SELECT * FROM stocks ORDER BY price'):
+  print row
+ 
+ (u'2006-01-05', u'BUY', u'RHAT', 100, 35.14)
+ (u'2006-03-28', u'BUY', u'IBM', 1000, 45.0)
+ (u'2006-04-06', u'SELL', u'IBM', 500, 53.0)
+ (u'2006-04-05', u'BUY', u'MSFT', 1000, 72.0)",1,0,1,1,1,0,0,1,1,0,1,0
+37,"class gzip.GzipFile(filename=None, mode=None, compresslevel=9, fileobj=None, mtime=None)
+ Constructor for the GzipFile class, which simulates most of the methods of a file object, with the exception of the readinto() and truncate() methods. At least one of fileobj and filename must be given a non-trivial value.
+ 
+ The new class instance is based on fileobj, which can be a regular file, a StringIO object, or any other object which simulates a file. It defaults to None, in which case filename is opened to provide a file object.
+ 
+ When fileobj is not None, the filename argument is only used to be included in the gzip file header, which may includes the original filename of the uncompressed file. It defaults to the filename of fileobj, if discernible; otherwise, it defaults to the empty string, and in this case the original filename is not included in the header.
+ 
+ The mode argument can be any of 'r', 'rb', 'a', 'ab', 'w', or 'wb', depending on whether the file will be read or written. The default is the mode of fileobj if discernible; otherwise, the default is 'rb'. If not given, the ‘b’ flag will be added to the mode to ensure the file is opened in binary mode for cross-platform portability.
+ 
+ The compresslevel argument is an integer from 1 to 9 controlling the level of compression; 1 is fastest and produces the least compression, and 9 is slowest and produces the most compression. The default is 9.
+ 
+ The mtime argument is an optional numeric timestamp to be written to the stream when compressing. All gzip compressed streams are required to contain a timestamp. If omitted or None, the current time is used. This module ignores the timestamp when decompressing; however, some programs, such as gunzip, make use of it. The format of the timestamp is the same as that of the return value of time.time() and of the st_mtime member of the object returned by os.stat().
+ 
+ Calling a GzipFile object’s close() method does not close fileobj, since you might wish to append more material after the compressed data. This also allows you to pass a StringIO object opened for writing as fileobj, and retrieve the resulting memory buffer using the StringIO object’s getvalue() method.
+ 
+ GzipFile supports the with statement.
+ 
+ Changed in version 3.1: Support for the with statement was added.",1,0,1,0,0,1,1,0,0,0,0,0
+38,"class bz2.BZ2Decompressor
+ Create a new decompressor object. This object may be used to decompress data sequentially. If you want to decompress data in one shot, use the decompress() function instead.
+ 
+ decompress(data)
+ Provide more data to the decompressor object. It will return chunks of decompressed data whenever possible. If you try to decompress data after the end of stream is found, EOFError will be raised. If any data was found after the end of stream, it’ll be ignored and saved in unused_data attribute.",1,0,0,0,0,0,0,0,0,0,0,1
+39,"The tarfile module makes it possible to read and write tar archives, including those using gzip or bz2 compression. Use the zipfile module to read or write .zip files, or the higher-level functions in shutil.
+ 
+ Some facts and figures:
+ 
+ reads and writes gzip and bz2 compressed archives if the respective modules are available.
+ 
+ read/write support for the POSIX.1-1988 (ustar) format.
+ 
+ read/write support for the GNU tar format including longname and longlink extensions, read-only support for the sparse extension.
+ 
+ read/write support for the POSIX.1-2001 (pax) format.
+ 
+ New in version 2.6.
+ 
+ handles directories, regular files, hardlinks, symbolic links, fifos, character devices and block devices and is able to acquire and restore file information like timestamp, access permissions and owner.
+ 
+ tarfile.open(name=None, mode='r', fileobj=None, bufsize=10240, **kwargs)
+ Return a TarFile object for the pathname name. For detailed information on TarFile objects and the keyword arguments that are allowed, see TarFile Objects.
+ 
+ mode has to be a string of the form 'filemode[:compression]', it defaults to 'r'. Here is a full list of mode combinations:
+ 
+ mode action
+ 'r' or 'r:*' Open for reading with transparent compression (recommended).
+ 'r:' Open for reading exclusively without compression.
+ 'r:gz' Open for reading with gzip compression.
+ 'r:bz2' Open for reading with bzip2 compression.
+ 'a' or 'a:' Open for appending with no compression. The file is created if it does not exist.
+ 'w' or 'w:' Open for uncompressed writing.
+ 'w:gz' Open for gzip compressed writing.
+ 'w:bz2' Open for bzip2 compressed writing.
+ Note that 'a:gz' or 'a:bz2' is not possible. If mode is not suitable to open a certain (compressed) file for reading, ReadError is raised. Use mode 'r' to avoid this. If a compression method is not supported, CompressionError is raised.
+ 
+ If fileobj is specified, it is used as an alternative to a file object opened for name. It is supposed to be at position 0.
+ 
+ For modes 'w:gz', 'r:gz', 'w:bz2', 'r:bz2', tarfile.open() accepts the keyword argument compresslevel (default 9) to specify the compression level of the file.
+ 
+ For special purposes, there is a second format for mode: 'filemode|[compression]'. tarfile.open() will return a TarFile object that processes its data as a stream of blocks. No random seeking will be done on the file. If given, fileobj may be any object that has a read() or write() method (depending on the mode). bufsize specifies the blocksize and defaults to 20 * 512 bytes. Use this variant in combination with e.g. sys.stdin, a socket file object or a tape device. However, such a TarFile object is limited in that it does not allow random access, see Examples. The currently possible modes:
+ 
+ Mode Action
+ 'r|*' Open a stream of tar blocks for reading with transparent compression.
+ 'r|' Open a stream of uncompressed tar blocks for reading.
+ 'r|gz' Open a gzip compressed stream for reading.
+ 'r|bz2' Open a bzip2 compressed stream for reading.
+ 'w|' Open an uncompressed stream for writing.
+ 'w|gz' Open a gzip compressed stream for writing.
+ 'w|bz2' Open a bzip2 compressed stream for writing.",1,1,1,0,0,0,1,0,0,1,1,0
+40,"class ConfigParser.ConfigParser([defaults[, dict_type[, allow_no_value]]])
+ Derived class of RawConfigParser that implements the magical interpolation feature and adds optional arguments to the get() and items() methods. The values in defaults must be appropriate for the %()s string interpolation. Note that __name__ is an intrinsic default; its value is the section name, and will override any value provided in defaults.
+ 
+ All option names used in interpolation will be passed through the optionxform() method just like any other option name reference. Using the default implementation of optionxform(), the values foo %(bar)s and foo %(BAR)s are equivalent.
+ 
+ New in version 2.3.
+ 
+ Changed in version 2.6: dict_type was added.
+ 
+ Changed in version 2.7: The default dict_type is collections.OrderedDict. allow_no_value was added.",1,1,1,0,0,1,0,0,0,0,0,0
+41,"class robotparser.RobotFileParser(url='')
+ This class provides methods to read, parse and answer questions about the robots.txt file at url.",1,0,0,0,0,0,0,0,0,0,0,1
+42,"This module implements a common interface to many different secure hash and message digest algorithms. Included are the FIPS secure hash algorithms SHA1, SHA224, SHA256, SHA384, and SHA512 (defined in FIPS 180-2) as well as RSA’s MD5 algorithm (defined in Internet RFC 1321). The terms secure hash and message digest are interchangeable. Older algorithms were called message digests. The modern term is secure hash.
+ 
+ Note If you want the adler32 or crc32 hash functions, they are available in the zlib module.
+ Warning Some algorithms have known hash collision weaknesses, refer to the “See also” section at the end.
+ There is one constructor method named for each type of hash. All return a hash object with the same simple interface. For example: use sha1() to create a SHA1 hash object. You can now feed this object with arbitrary strings using the update() method. At any point you can ask it for the digest of the concatenation of the strings fed to it so far using the digest() or hexdigest() methods.
+ 
+ Constructors for hash algorithms that are always present in this module are md5(), sha1(), sha224(), sha256(), sha384(), and sha512(). Additional algorithms may also be available depending upon the OpenSSL library that Python uses on your platform.
+ 
+ For example, to obtain the digest of the string 'Nobody inspects the spammish repetition':
+ 
+ >>> import hashlib
+ >>> m = hashlib.md5()
+ >>> m.update(""Nobody inspects"")
+ >>> m.update("" the spammish repetition"")
+ >>> m.digest()
+ '\xbbd\x9c\x83\xdd\x1e\xa5\xc9\xd9\xde\xc9\xa1\x8d\xf0\xff\xe9'
+ >>> m.digest_size
+ 16
+ >>> m.block_size
+ 64
+ More condensed:
+ 
+ >>> hashlib.sha224(""Nobody inspects the spammish repetition"").hexdigest()
+ 'a4337bc45a8fc544c03f52dc550cd6e1e87021bc896588bd79e901e2'
+ A generic new() constructor that takes the string name of the desired algorithm as its first parameter also exists to allow access to the above listed hashes as well as any other algorithms that your OpenSSL library may offer. The named constructors are much faster than new() and should be preferred.
+ 
+ Using new() with an algorithm provided by OpenSSL:
+ 
+ >>> h = hashlib.new('ripemd160')
+ >>> h.update(""Nobody inspects the spammish repetition"")
+ >>> h.hexdigest()
+ 'cc4a5ce1b3df48aec5d22d1f16b894a0b894eccc'",1,1,1,0,1,0,0,1,1,1,1,0
+43,"os.environ
+ A mapping object representing the string environment. For example, environ['HOME'] is the pathname of your home directory (on some platforms), and is equivalent to getenv(""HOME"") in C.
+ 
+ This mapping is captured the first time the os module is imported, typically during Python startup as part of processing site.py. Changes to the environment made after this time are not reflected in os.environ, except for changes made by modifying os.environ directly.
+ 
+ If the platform supports the putenv() function, this mapping may be used to modify the environment as well as query the environment. putenv() will be called automatically when the mapping is modified.
+ 
+ Note Calling putenv() directly does not change os.environ, so it’s better to modify os.environ.
+ Note On some platforms, including FreeBSD and Mac OS X, setting environ may cause memory leaks. Refer to the system documentation for putenv().
+ If putenv() is not provided, a modified copy of this mapping may be passed to the appropriate process-creation functions to cause child processes to use a modified environment.
+ 
+ If the platform supports the unsetenv() function, you can delete items in this mapping to unset environment variables. unsetenv() will be called automatically when an item is deleted from os.environ, and when one of the pop() or clear() methods is called.
+ 
+ Changed in version 2.6: Also unset environment variables when calling os.environ.clear() and os.environ.pop().",1,1,1,0,1,1,0,0,0,1,1,0
+44,"time.sleep(secs)¶
+ Suspend execution of the current thread for the given number of seconds. The argument may be a floating point number to indicate a more precise sleep time. The actual suspension time may be less than that requested because any caught signal will terminate the sleep() following execution of that signal’s catching routine. Also, the suspension time may be longer than requested by an arbitrary amount because of the scheduling of other activity in the system.",1,0,0,0,0,0,0,0,0,0,0,1
+45,"class argparse.ArgumentParser(prog=None, usage=None, description=None, epilog=None, parents=[], formatter_class=argparse.HelpFormatter, prefix_chars='-', fromfile_prefix_chars=None, argument_default=None, conflict_handler='error', add_help=True)
+ Create a new ArgumentParser object. All parameters should be passed as keyword arguments. Each parameter has its own more detailed description below, but in short they are:
+ 
+ prog - The name of the program (default: sys.argv[0])
+ usage - The string describing the program usage (default: generated from arguments added to parser)
+ description - Text to display before the argument help (default: none)
+ epilog - Text to display after the argument help (default: none)
+ parents - A list of ArgumentParser objects whose arguments should also be included
+ formatter_class - A class for customizing the help output
+ prefix_chars - The set of characters that prefix optional arguments (default: ‘-‘)
+ fromfile_prefix_chars - The set of characters that prefix files from which additional arguments should be read (default: None)
+ argument_default - The global default value for arguments (default: None)
+ conflict_handler - The strategy for resolving conflicting optionals (usually unnecessary)
+ add_help - Add a -h/--help option to the parser (default: True)",1,0,1,0,0,0,1,0,0,0,0,0
+46,"getopt.gnu_getopt(args, options[, long_options])
+ This function works like getopt(), except that GNU style scanning mode is used by default. This means that option and non-option arguments may be intermixed. The getopt() function stops processing options as soon as a non-option argument is encountered.
+ 
+ If the first character of the option string is '+', or if the environment variable POSIXLY_CORRECT is set, then option processing stops as soon as a non-option argument is encountered.
+ 
+ New in version 2.3.",1,0,0,0,0,1,0,0,0,0,0,0
+47,"Loggers have the following attributes and methods. Note that Loggers are never instantiated directly, but always through the module-level function logging.getLogger(name). Multiple calls to getLogger() with the same name will always return a reference to the same Logger object.
+ 
+ The name is potentially a period-separated hierarchical value, like foo.bar.baz (though it could also be just plain foo, for example). Loggers that are further down in the hierarchical list are children of loggers higher up in the list. For example, given a logger with a name of foo, loggers with names of foo.bar, foo.bar.baz, and foo.bam are all descendants of foo. The logger name hierarchy is analogous to the Python package hierarchy, and identical to it if you organise your loggers on a per-module basis using the recommended construction logging.getLogger(__name__). That’s because in a module, __name__ is the module’s name in the Python package namespace.
+ 
+ class logging.Logger",1,1,0,0,0,0,1,0,0,0,0,0
+48,"getpass.getpass([prompt[, stream]])
+ Prompt the user for a password without echoing. The user is prompted using the string prompt, which defaults to 'Password: '. On Unix, the prompt is written to the file-like object stream. stream defaults to the controlling terminal (/dev/tty) or if that is unavailable to sys.stderr (this argument is ignored on Windows).
+ 
+ If echo free input is unavailable getpass() falls back to printing a warning message to stream and reading from sys.stdin and issuing a GetPassWarning.
+ 
+ Changed in version 2.5: The stream parameter was added.
+ 
+ Changed in version 2.6: On Unix it defaults to using /dev/tty before falling back to sys.stdin and sys.stderr.
+ 
+ Note If you call getpass from within IDLE, the input may be done in the terminal you launched IDLE from rather than the idle window itself.",1,0,0,0,0,1,0,0,0,1,0,0
+49,"platform.architecture(executable=sys.executable, bits='', linkage='')
+ Queries the given executable (defaults to the Python interpreter binary) for various architecture information.
+ 
+ Returns a tuple (bits, linkage) which contain information about the bit architecture and the linkage format used for the executable. Both values are returned as strings.
+ 
+ Values that cannot be determined are returned as given by the parameter presets. If bits is given as '', the sizeof(pointer) (or sizeof(long) on Python version < 1.5.2) is used as indicator for the supported pointer size.
+ 
+ The function relies on the system’s file command to do the actual work. This is available on most if not all Unix platforms and some non-Unix platforms and then only if the executable points to the Python interpreter. Reasonable defaults are used when the above needs are not met.
+ 
+ Note On Mac OS X (and perhaps other platforms), executable files may be universal files containing multiple architectures.
+ To get at the “64-bitness” of the current interpreter, it is more reliable to query the sys.maxsize attribute:
+ 
+ is_64bits = sys.maxsize > 2**32",1,0,0,0,1,0,0,0,1,1,0,0
+50,"This module makes available standard errno system symbols. The value of each symbol is the corresponding integer value. The names and descriptions are borrowed from linux/include/errno.h, which should be pretty all-inclusive.
+ 
+ errno.errorcode
+ Dictionary providing a mapping from the errno value to the string name in the underlying system. For instance, errno.errorcode[errno.EPERM] maps to 'EPERM'.
+ 
+ To translate a numeric error code to an error message, use os.strerror().",1,1,0,0,0,0,0,0,0,0,0,0
+51,"ctypes exports the cdll, and on Windows windll and oledll objects, for loading dynamic link libraries.
+ 
+ You load libraries by accessing them as attributes of these objects. cdll loads libraries which export functions using the standard cdecl calling convention, while windll libraries call functions using the stdcall calling convention. oledll also uses the stdcall calling convention, and assumes the functions return a Windows HRESULT error code. The error code is used to automatically raise a WindowsError exception when the function call fails.
+ 
+ Here are some examples for Windows. Note that msvcrt is the MS standard C library containing most standard C functions, and uses the cdecl calling convention:
+ 
+ >>> from ctypes import *
+ >>> print windll.kernel32 
+ <WinDLL 'kernel32', handle ... at ...>
+ >>> print cdll.msvcrt 
+ <CDLL 'msvcrt', handle ... at ...>
+ >>> libc = cdll.msvcrt 
+ >>>
+ Windows appends the usual .dll file suffix automatically.
+ 
+ On Linux, it is required to specify the filename including the extension to load a library, so attribute access can not be used to load libraries. Either the LoadLibrary() method of the dll loaders should be used, or you should load the library by creating an instance of CDLL by calling the constructor:
+ 
+ >>> cdll.LoadLibrary(""libc.so.6"") 
+ <CDLL 'libc.so.6', handle ... at ...>
+ >>> libc = CDLL(""libc.so.6"") 
+ >>> libc 
+ <CDLL 'libc.so.6', handle ... at ...>
+ >>>",1,1,1,0,0,0,1,0,1,1,0,0
+52,"select.select(rlist, wlist, xlist[, timeout])
+ This is a straightforward interface to the Unix select() system call. The first three arguments are sequences of ‘waitable objects’: either integers representing file descriptors or objects with a parameterless method named fileno() returning such an integer:
+ 
+ rlist: wait until ready for reading
+ wlist: wait until ready for writing
+ xlist: wait for an “exceptional condition” (see the manual page for what your system considers such a condition)
+ Empty sequences are allowed, but acceptance of three empty sequences is platform-dependent. (It is known to work on Unix but not on Windows.) The optional timeout argument specifies a time-out as a floating point number in seconds. When the timeout argument is omitted the function blocks until at least one file descriptor is ready. A time-out value of zero specifies a poll and never blocks.
+ 
+ The return value is a triple of lists of objects that are ready: subsets of the first three arguments. When the time-out is reached without a file descriptor becoming ready, three empty lists are returned.
+ 
+ Among the acceptable object types in the sequences are Python file objects (e.g. sys.stdin, or objects returned by open() or os.popen()), socket objects returned by socket.socket(). You may also define a wrapper class yourself, as long as it has an appropriate fileno() method (that really returns a file descriptor, not just a random integer).
+ 
+ Note File objects on Windows are not acceptable, but sockets are. On Windows, the underlying select() function is provided by the WinSock library, and does not handle file descriptors that don’t originate from WinSock.",1,0,1,0,0,1,0,0,0,0,0,1
+53,"thread.stack_size([size])
+ Return the thread stack size used when creating new threads. The optional size argument specifies the stack size to be used for subsequently created threads, and must be 0 (use platform or configured default) or a positive integer value of at least 32,768 (32kB). If size is not specified, 0 is used. If changing the thread stack size is unsupported, the error exception is raised. If the specified stack size is invalid, a ValueError is raised and the stack size is unmodified. 32kB is currently the minimum supported stack size value to guarantee sufficient stack space for the interpreter itself. Note that some platforms may have particular restrictions on values for the stack size, such as requiring a minimum stack size > 32kB or requiring allocation in multiples of the system memory page size - platform documentation should be referred to for more information (4kB pages are common; using multiples of 4096 for the stack size is the suggested approach in the absence of more specific information). Availability: Windows, systems with POSIX threads",1,1,1,0,1,0,0,0,0,1,0,0
+54,"The recommended way to launch subprocesses is to use the following convenience functions. For more advanced use cases when these do not meet your needs, use the underlying Popen interface.
+ 
+ subprocess.call(args, *, stdin=None, stdout=None, stderr=None, shell=False)
+ Run the command described by args. Wait for command to complete, then return the returncode attribute.
+ 
+ The arguments shown above are merely the most common ones, described below in Frequently Used Arguments (hence the slightly odd notation in the abbreviated signature). The full function signature is the same as that of the Popen constructor - this functions passes all supplied arguments directly through to that interface.
+ 
+ Examples:
+ 
+ >>> subprocess.call([""ls"", ""-l""])
+ 0
+ 
+ >>> subprocess.call(""exit 1"", shell=True)
+ 1
+ Warning Using shell=True can be a security hazard. See the warning under Frequently Used Arguments for details.
+ Note Do not use stdout=PIPE or stderr=PIPE with this function as that can deadlock based on the child process output volume. Use Popen with the communicate() method when you need pipes.",1,0,1,1,1,0,0,1,1,0,0,0
+55,"socket.getaddrinfo(host, port[, family[, socktype[, proto[, flags]]]])
+ Translate the host/port argument into a sequence of 5-tuples that contain all the necessary arguments for creating a socket connected to that service. host is a domain name, a string representation of an IPv4/v6 address or None. port is a string service name such as 'http', a numeric port number or None. By passing None as the value of host and port, you can pass NULL to the underlying C API.
+ 
+ The family, socktype and proto arguments can be optionally specified in order to narrow the list of addresses returned. By default, their value is 0, meaning that the full range of results is selected. The flags argument can be one or several of the AI_* constants, and will influence how results are computed and returned. Its default value is 0. For example, AI_NUMERICHOST will disable domain name resolution and will raise an error if host is a domain name.
+ 
+ The function returns a list of 5-tuples with the following structure:
+ 
+ (family, socktype, proto, canonname, sockaddr)
+ 
+ In these tuples, family, socktype, proto are all integers and are meant to be passed to the socket() function. canonname will be a string representing the canonical name of the host if AI_CANONNAME is part of the flags argument; else canonname will be empty. sockaddr is a tuple describing a socket address, whose format depends on the returned family (a (address, port) 2-tuple for AF_INET, a (address, port, flow info, scope id) 4-tuple for AF_INET6), and is meant to be passed to the socket.connect() method.
+ 
+ The following example fetches address information for a hypothetical TCP connection to example.org on port 80 (results may differ on your system if IPv6 isn’t enabled):
+ 
+ >>> socket.getaddrinfo(""example.org"", 80, 0, 0, socket.IPPROTO_TCP)
+ [(10, 1, 6, '', ('2606:2800:220:1:248:1893:25c8:1946', 80, 0, 0)),
+  (2, 1, 6, '', ('93.184.216.34', 80))]
+ New in version 2.2.",1,1,0,0,0,0,0,1,1,0,0,0
+56,"signal.alarm(time)¶
+ If time is non-zero, this function requests that a SIGALRM signal be sent to the process in time seconds. Any previously scheduled alarm is canceled (only one alarm can be scheduled at any time). The returned value is then the number of seconds before any previously set alarm was to have been delivered. If time is zero, no alarm is scheduled, and any scheduled alarm is canceled. If the return value is zero, no alarm is currently scheduled. (See the Unix man page alarm(2).) Availability: Unix.",1,0,0,0,,1,0,0,0,1,0,0
+57,"subprocess.check_output(args, *, stdin=None, stderr=None, shell=False, universal_newlines=False)
+ Run command with arguments and return its output as a byte string.
+ 
+ If the return code was non-zero it raises a CalledProcessError. The CalledProcessError object will have the return code in the returncode attribute and any output in the output attribute.
+ 
+ The arguments shown above are merely the most common ones, described below in Frequently Used Arguments (hence the slightly odd notation in the abbreviated signature). The full function signature is largely the same as that of the Popen constructor, except that stdout is not permitted as it is used internally. All other supplied arguments are passed directly through to the Popen constructor.
+ 
+ Examples:
+ 
+ >>> subprocess.check_output([""echo"", ""Hello World!""])
+ 'Hello World!\n'
+ 
+ >>> subprocess.check_output(""exit 1"", shell=True)
+ Traceback (most recent call last):
+  ...
+ subprocess.CalledProcessError: Command 'exit 1' returned non-zero exit status 1
+ To also capture standard error in the result, use stderr=subprocess.STDOUT:
+ 
+ >>> subprocess.check_output(
+ ... ""ls non_existent_file; exit 0"",
+ ... stderr=subprocess.STDOUT,
+ ... shell=True)
+ 'ls: non_existent_file: No such file or directory\n'
+ New in version 2.7.
+ 
+ Warning Using shell=True can be a security hazard. See the warning under Frequently Used Arguments for details.
+ Note Do not use stderr=PIPE with this function as that can deadlock based on the child process error volume. Use Popen with the communicate() method when you need a stderr pipe.",1,0,1,0,1,0,0,1,1,0,0,0
+58,"class asyncore.dispatcher
+ The dispatcher class is a thin wrapper around a low-level socket object. To make it more useful, it has a few methods for event-handling which are called from the asynchronous loop. Otherwise, it can be treated as a normal non-blocking socket object.
+ 
+ The firing of low-level events at certain times or in certain connection states tells the asynchronous loop that certain higher-level events have taken place. For example, if we have asked for a socket to connect to another host, we know that the connection has been made when the socket becomes writable for the first time (at this point you know that you may write to it with the expectation of success). The implied higher-level events are:
+ 
+ Event Description
+ handle_connect() Implied by the first read or write event
+ handle_close() Implied by a read event with no data available
+ handle_accept() Implied by a read event on a listening socket
+ During asynchronous processing, each mapped channel’s readable() and writable() methods are used to determine whether the channel’s socket should be added to the list of channels select()ed or poll()ed for read and write events.
+ 
+ Thus, the set of channel events is larger than the basic socket events.",1,1,0,1,0,1,1,0,0,0,0,
+59,"class asynchat.async_chat
+ This class is an abstract subclass of asyncore.dispatcher. To make practical use of the code you must subclass async_chat, providing meaningful collect_incoming_data() and found_terminator() methods. The asyncore.dispatcher methods can be used, although not all make sense in a message/response context.
+ 
+ Like asyncore.dispatcher, async_chat defines a set of events that are generated by an analysis of socket conditions after a select() call. Once the polling loop has been started the async_chat object’s methods are called by the event-processing framework with no action on the part of the programmer.
+ 
+ Two class attributes can be modified, to improve performance, or possibly even to conserve memory.
+ 
+ ac_in_buffer_size
+ The asynchronous input buffer size (default 4096).
+ 
+ ac_out_buffer_size
+ The asynchronous output buffer size (default 4096).
+ 
+ Unlike asyncore.dispatcher, async_chat allows you to define a first-in-first-out queue (fifo) of producers. A producer need have only one method, more(), which should return data to be transmitted on the channel. The producer indicates exhaustion (i.e. that it contains no more data) by having its more() method return the empty string. At this point the async_chat object removes the producer from the fifo and starts using the next producer, if any. When the producer fifo is empty the handle_write() method does nothing. You use the channel object’s set_terminator() method to describe how to recognize the end of, or an important breakpoint in, an incoming transmission from the remote endpoint.
+ 
+ To build a functioning async_chat subclass your input methods collect_incoming_data() and found_terminator() must handle the data that the channel receives asynchronous",1,1,1,1,0,1,1,1,0,0,0,0
+60,mimify - MIME processing of mail messages,1,0,0,0,0,0,0,0,0,0,0,1
+61,"json.loads(s[, encoding[, cls[, object_hook[, parse_float[, parse_int[, parse_constant[, object_pairs_hook[, **kw]]]]]]]])",0,0,0,0,0,0,0,0,0,0,0,1
+62,Deserialize s (a str or unicode instance containing a JSON document) to a Python object using this conversion table.,1,0,0,0,0,0,0,0,0,0,0,1
+63,"mimetypes.guess_all_extensions(type, strict=True)
+ Guess the extensions for a file based on its MIME type, given by type. The return value is a list of strings giving all possible filename extensions, including the leading dot ('.'). The extensions are not guaranteed to have been associated with any particular data stream, but would be mapped to the MIME type type by guess_type().
+ 
+ The optional strict argument has the same meaning as with the guess_type() function.",1,0,0,0,0,0,0,0,0,0,0,0
+64,"class email.message.Message
+ The constructor takes no arguments.
+ 
+ as_string([unixfrom])
+ Return the entire message flattened as a string. When optional unixfrom is True, the envelope header is included in the returned string. unixfrom defaults to False. Flattening the message may trigger changes to the Message if defaults need to be filled in to complete the transformation to a string (for example, MIME boundaries may be generated or modified).
+ 
+ Note that this method is provided as a convenience and may not always format the message the way you want. For example, by default it mangles lines that begin with From. For more flexibility, instantiate a Generator instance and use its flatten() method directly. For example:
+ 
+ from cStringIO import StringIO
+ from email.generator import Generator
+ fp = StringIO()
+ g = Generator(fp, mangle_from_=False, maxheaderlen=60)
+ g.flatten(msg)
+ text = fp.getvalue()",1,1,0,1,0,1,0,0,1,0,0,1
+65,"base64.b64encode(s[, altchars])
+ Encode a string using Base64.
+ 
+ s is the string to encode. Optional altchars must be a string of at least length 2 (additional characters are ignored) which specifies an alternative alphabet for the + and / characters. This allows an application to e.g. generate URL or filesystem safe Base64 strings. The default is None, for which the standard Base64 alphabet is used.
+ 
+ The encoded string is returned.",1,0,1,1,0,0,0,0,0,0,0,0
+66,"binhex.binhex(input, output)
+ Convert a binary file with filename input to binhex file output. The output parameter can either be a filename or a file-like object (any object supporting a write() and close() method).",1,0,1,0,0,0,0,0,0,0,0,0
+67,"binascii.crc32(data[, crc])
+ Compute CRC-32, the 32-bit checksum of data, starting with an initial crc. This is consistent with the ZIP file checksum. Since the algorithm is designed for use as a checksum algorithm, it is not suitable for use as a general hash algorithm. Use as follows:
+ 
+ print binascii.crc32(""hello world"")
+ # Or, in two pieces:
+ crc = binascii.crc32(""hello"")
+ crc = binascii.crc32("" world"", crc)
+ print crc",1,0,0,0,0,0,0,0,1,0,0,0
+68,"quopri.encode(input, output, quotetabs)
+ Encode the contents of the input file and write the resulting quoted-printable data to the output file. input and output must either be file objects or objects that mimic the file object interface. input will be read until input.readline() returns an empty string. quotetabs is a flag which controls whether to encode embedded spaces and tabs; when true it encodes such embedded whitespace, and when false it leaves them unencoded. Note that spaces and tabs appearing at the end of lines are always encoded, as per RFC 1521.
+ https://docs.python.org/2/library/quopri.html",1,0,1,0,0,0,0,0,0,0,1,0
+69,"uu.encode(in_file, out_file[, name[, mode]])
+ Uuencode file in_file into file out_file. The uuencoded file will have the header specifying name and mode as the defaults for the results of decoding the file. The default defaults are taken from in_file, or '-' and 0666 respectively.",1,0,0,0,0,0,0,0,0,0,0,0
+70,"HTMLParser.handle_starttag(tag, attrs)
+ This method is called to handle the start of a tag (e.g. <div id=""main"">).
+ 
+ The tag argument is the name of the tag converted to lower case. The attrs argument is a list of (name, value) pairs containing the attributes found inside the tag’s <> brackets. The name will be translated to lower case, and quotes in the value have been removed, and character and entity references have been replaced.
+ 
+ For instance, for the tag <A HREF=""https://www.cwi.nl/"">, this method would be called as handle_starttag('a', [('href', 'https://www.cwi.nl/')]).
+ 
+ Changed in version 2.6: All entity references from htmlentitydefs are now replaced in the attribute values.",1,0,0,0,0,0,0,0,1,0,0,1
+71,"xml.dom.getDOMImplementation([name[, features]])
+ Return a suitable DOM implementation. The name is either well-known, the module name of a DOM implementation, or None. If it is not None, imports the corresponding module and returns a DOMImplementation object if the import succeeds. If no name is given, and if the environment variable PYTHON_DOM is set, this variable is used to find the implementation.
+ 
+ If name is not given, this examines the available implementations to find one with the required feature set. If no implementation can be found, raise an ImportError. The features list must be a sequence of (feature, version) pairs which are passed to the hasFeature() method on available DOMImplementation objects.
+ 
+ Some convenience constants are also provided:
+ 
+ xml.dom.EMPTY_NAMESPACE
+ The value used to indicate that no namespace is associated with a node in the DOM. This is typically found as the namespaceURI of a node, or used as the namespaceURI parameter to a namespaces-specific method.
+ 
+ New in version 2.2.
+ 
+ xml.dom.XML_NAMESPACE
+ The namespace URI associated with the reserved prefix xml, as defined by Namespaces in XML (section 4).
+ 
+ New in version 2.2.
+ 
+ xml.dom.XMLNS_NAMESPACE
+ The namespace URI for namespace declarations, as defined by Document Object Model (DOM) Level 2 Core Specification (section 1.1.8).
+ 
+ New in version 2.2.
+ 
+ xml.dom.XHTML_NAMESPACE
+ The URI of the XHTML namespace as defined by XHTML 1.0: The Extensible HyperText Markup Language (section 3.1.1).
+ 
+ New in version 2.2.",1,0,1,0,0,1,0,0,0,0,0,1
+72,"xml.sax.parseString(string, handler[, error_handler])
+ Similar to parse(), but parses from a buffer string received as a parameter.
+ 
+ A typical SAX application uses three kinds of objects: readers, handlers and input sources. “Reader” in this context is another term for parser, i.e. some piece of code that reads the bytes or characters from the input source, and produces a sequence of events. The events then get distributed to the handler objects, i.e. the reader invokes a method on the handler. A SAX application must therefore obtain a reader object, create or open the input sources, create the handlers, and connect these objects all together. As the final step of preparation, the reader is called to parse the input. During parsing, methods on the handler objects are called based on structural and syntactic events from the input data.
+ 
+ For these objects, only the interfaces are relevant; they are normally not instantiated by the application itself. Since Python does not have an explicit notion of interface, they are formally introduced as classes, but applications may use implementations which do not inherit from the provided classes. The InputSource, Locator, Attributes, AttributesNS, and XMLReader interfaces are defined in the module xml.sax.xmlreader. The handler interfaces are defined in xml.sax.handler. For convenience, InputSource (which is often instantiated directly) and the handler classes are also available from xml.sax.",0,1,0,1,0,1,1,0,0,0,0,0
+73,"xml.sax.saxutils.quoteattr(data[, entities])
+ Similar to escape(), but also prepares data to be used as an attribute value. The return value is a quoted version of data with any additional required replacements. quoteattr() will select a quote character based on the content of data, attempting to avoid encoding any quote characters in the string. If both single- and double-quote characters are already in data, the double-quote characters will be encoded and data will be wrapped in double-quotes. The resulting string can be used directly as an attribute value:
+ 
+ >>> print ""<element attr=%s>"" % quoteattr(""ab ' cd \"" ef"")
+ <element attr=""ab ' cd &quot; ef"">
+ This function is useful when generating attribute values for HTML or any SGML using the reference concrete syntax.
+ 
+ New in version 2.2.",1,0,0,1,0,1,0,0,1,0,0,0
+74,"cgi.parse_multipart(fp, pdict)
+ Parse input of type multipart/form-data (for file uploads). Arguments are fp for the input file and pdict for a dictionary containing other parameters in the Content-Type header.
+ 
+ Returns a dictionary just like urlparse.parse_qs() keys are the field names, each value is a list of values for that field. This is easy to use but not much good if you are expecting megabytes to be uploaded — in that case, use the FieldStorage class instead which is much more flexible.
+ 
+ Note that this does not parse nested multipart parts — use FieldStorage for tha",1,0,1,0,0,0,0,0,0,0,0,0
+75,"wsgiref.util.setup_testing_defaults(environ)
+ Update environ with trivial defaults for testing purposes.
+ 
+ This routine adds various parameters required for WSGI, including HTTP_HOST, SERVER_NAME, SERVER_PORT, REQUEST_METHOD, SCRIPT_NAME, PATH_INFO, and all of the PEP 333-defined wsgi.* variables. It only supplies default values, and does not replace any existing settings for these variables.
+ 
+ This routine is intended to make it easier for unit tests of WSGI servers and applications to set up dummy environments. It should NOT be used by actual WSGI servers or applications, since the data is fake!
+ 
+ Example usage:
+ 
+ from wsgiref.util import setup_testing_defaults
+ from wsgiref.simple_server import make_server
+ 
+ # A relatively simple WSGI application. It's going to print out the
+ # environment dictionary after being updated by setup_testing_defaults
+ def simple_app(environ, start_response):
+  setup_testing_defaults(environ)
+ 
+  status = '200 OK'
+  headers = [('Content-type', 'text/plain')]
+ 
+  start_response(status, headers)
+ 
+  ret = [""%s: %s\n"" % (key, value)
+  for key, value in environ.iteritems()]
+  return ret
+ 
+ httpd = make_server('', 8000, simple_app)
+ print ""Serving on port 8000...""
+ httpd.serve_forever()",1,0,1,1,0,0,0,0,1,0,0,0
+76,"urllib.urlretrieve(url[, filename[, reporthook[, data]]])
+ Copy a network object denoted by a URL to a local file, if necessary. If the URL points to a local file, or a valid cached copy of the object exists, the object is not copied. Return a tuple (filename, headers) where filename is the local file name under which the object can be found, and headers is whatever the info() method of the object returned by urlopen() returned (for a remote object, possibly cached). Exceptions are the same as for urlopen().
+ 
+ The second argument, if present, specifies the file location to copy to (if absent, the location will be a tempfile with a generated name). The third argument, if present, is a callable that will be called once on establishment of the network connection and once after each block read thereafter. The callable will be passed three arguments; a count of blocks transferred so far, a block size in bytes, and the total size of the file. The third argument may be -1 on older FTP servers which do not return a file size in response to a retrieval request.
+ 
+ If the url uses the http: scheme identifier, the optional data argument may be given to specify a POST request (normally the request type is GET). The data argument must in standard application/x-www-form-urlencoded format; see the urlencode() function below.
+ 
+ Changed in version 2.5: urlretrieve() will raise ContentTooShortError when it detects that the amount of data available was less than the expected amount (which is the size reported by a Content-Length header). This can occur, for example, when the download is interrupted.
+ 
+ The Content-Length is treated as a lower bound: if there’s more data to read, urlretrieve() reads more data, but if less data is available, it raises the exception.
+ 
+ You can still retrieve the downloaded data in this case, it is stored in the content attribute of the exception instance.",1,0,1,0,0,1,0,0,0,0,0,0
+77,"urllib2.urlopen(url[, data[, timeout[, cafile[, capath[, cadefault[, context]]]]])
+ Open the URL url, which can be either a string or a Request object.
+ 
+ data may be a string specifying additional data to send to the server, or None if no such data is needed. Currently HTTP requests are the only ones that use data; the HTTP request will be a POST instead of a GET when the data parameter is provided. data should be a buffer in the standard application/x-www-form-urlencoded format. The urllib.urlencode() function takes a mapping or sequence of 2-tuples and returns a string in this format. urllib2 module sends HTTP/1.1 requests with Connection:close header included.
+ 
+ The optional timeout parameter specifies a timeout in seconds for blocking operations like the connection attempt (if not specified, the global default timeout setting will be used). This actually only works for HTTP, HTTPS and FTP connections.
+ 
+ If context is specified, it must be a ssl.SSLContext instance describing the various SSL options. See HTTPSConnection for more details.
+ 
+ The optional cafile and capath parameters specify a set of trusted CA certificates for HTTPS requests. cafile should point to a single file containing a bundle of CA certificates, whereas capath should point to a directory of hashed certificate files. More information can be found in ssl.SSLContext.load_verify_locations().
+ 
+ The cadefault parameter is ignored.
+ 
+ This function returns a file-like object with three additional methods:
+ 
+ geturl() — return the URL of the resource retrieved, commonly used to determine if a redirect was followed
+ info() — return the meta-information of the page, such as headers, in the form of an mimetools.Message instance (see Quick Reference to HTTP Headers)
+ getcode() — return the HTTP status code of the response.
+ Raises URLError on errors.
+ 
+ Note that None may be returned if no handler handles the request (though the default installed global OpenerDirector uses UnknownHandler to ensure this never happens).
+ 
+ In addition, if proxy settings are detected (for example, when a *_proxy environment variable like http_proxy is set), ProxyHandler is default installed and makes sure the requests are handled through the proxy.
+ 
+ Changed in version 2.6: timeout was added.
+ 
+ Changed in version 2.7.9: cafile, capath, cadefault, and context were added.",1,0,0,0,0,0,1,0,0,0,0,0
+78,"class ftplib.FTP_TLS([host[, user[, passwd[, acct[, keyfile[, certfile[, context[, timeout]]]]]]]])
+ A FTP subclass which adds TLS support to FTP as described in RFC 4217. Connect as usual to port 21 implicitly securing the FTP control connection before authenticating. Securing the data connection requires the user to explicitly ask for it by calling the prot_p() method. context is a ssl.SSLContext object which allows bundling SSL configuration options, certificates and private keys into a single (potentially long-lived) structure. Please read Security considerations for best practices.
+ 
+ keyfile and certfile are a legacy alternative to context – they can point to PEM-formatted private key and certificate chain files (respectively) for the SSL connection.
+ 
+ New in version 2.7.
+ 
+ Changed in version 2.7.10: The context parameter was added.
+ 
+ Here’s a sample session using the FTP_TLS class:
+ 
+ >>> from ftplib import FTP_TLS
+ >>> ftps = FTP_TLS('ftp.python.org')
+ >>> ftps.login() # login anonymously before securing control channel
+ >>> ftps.prot_p() # switch to secure data connection
+ >>> ftps.retrlines('LIST') # list directory content securely
+ total 9
+ drwxr-xr-x 8 root wheel 1024 Jan 3 1994 .
+ drwxr-xr-x 8 root wheel 1024 Jan 3 1994 ..
+ drwxr-xr-x 2 root wheel 1024 Jan 3 1994 bin
+ drwxr-xr-x 2 root wheel 1024 Jan 3 1994 etc
+ d-wxrwxr-x 2 ftp wheel 1024 Sep 5 13:43 incoming
+ drwxr-xr-x 2 root wheel 1024 Nov 17 1993 lib
+ drwxr-xr-x 6 1094 wheel 1024 Sep 13 19:07 pub
+ drwxr-xr-x 3 root wheel 1024 Jan 3 1994 usr
+ -rw-r--r-- 1 root root 312 Aug 1 1994 welcome.msg
+ '226 Transfer complete.'
+ >>> ftps.quit()
+ >>>",1,1,1,0,0,0,0,0,1,0,1,0
+79,"IMAP4.store(message_set, command, flag_list)
+ Alters flag dispositions for messages in mailbox. command is specified by section 6.4.6 of RFC 2060 as being one of “FLAGS”, “+FLAGS”, or “-FLAGS”, optionally with a suffix of ”.SILENT”.
+ 
+ For example, to set the delete flag on all messages:
+ 
+ typ, data = M.search(None, 'ALL')
+ for num in data[0].split():
+  M.store(num, '+FLAGS', '\\Deleted')
+ M.expunge()",1,0,0,0,0,0,0,0,1,0,0,0
+80,"NNTP.xhdr(header, string[, file])
+ Send an XHDR command. This command is not defined in the RFC but is a common extension. The header argument is a header keyword, e.g. 'subject'. The string argument should have the form 'first-last' where first and last are the first and last article numbers to search. Return a pair (response, list), where list is a list of pairs (id, text), where id is an article number (as a string) and text is the text of the requested header for that article. If the file parameter is supplied, then the output of the XHDR command is stored in a file. If file is a string, then the method will open a file object with that name, write to it then close it. If file is a file object, then it will start calling write() on it to store the lines of the command output. If file is supplied, then the returned list is an empty list.",1,0,1,0,0,1,0,0,0,0,0,0
+81,"class smtplib.SMTP([host[, port[, local_hostname[, timeout]]]])
+ An SMTP instance encapsulates an SMTP connection. It has methods that support a full repertoire of SMTP and ESMTP operations. If the optional host and port parameters are given, the SMTP connect() method is called with those parameters during initialization. If specified, local_hostname is used as the FQDN of the local host in the HELO/EHLO command. Otherwise, the local hostname is found using socket.getfqdn(). If the connect() call returns anything other than a success code, an SMTPConnectError is raised. The optional timeout parameter specifies a timeout in seconds for blocking operations like the connection attempt (if not specified, the global default timeout setting will be used). If the timeout expires, socket.timeout is raised.
+ 
+ For normal use, you should only require the initialization/connect, sendmail(), and quit() methods. An example is included below.
+ 
+ Changed in version 2.6: timeout was added.",1,0,1,0,0,1,0,0,0,0,0,0
+82,"class telnetlib.Telnet([host[, port[, timeout]]])
+ Telnet represents a connection to a Telnet server. The instance is initially not connected by default; the open() method must be used to establish a connection. Alternatively, the host name and optional port number can be passed to the constructor, to, in which case the connection to the server will be established before the constructor returns. The optional timeout parameter specifies a timeout in seconds for blocking operations like the connection attempt (if not specified, the global default timeout setting will be used).
+ 
+ Do not reopen an already connected instance.
+ 
+ This class has many read_*() methods. Note that some of them raise EOFError when the end of the connection is read, because they can return an empty string for other reasons. See the individual descriptions below.
+ 
+ Changed in version 2.6: timeout was added",1,0,1,0,0,0,0,0,0,0,0,0
+83,"class uuid.UUID([hex[, bytes[, bytes_le[, fields[, int[, version]]]]]])
+ Create a UUID from either a string of 32 hexadecimal digits, a string of 16 bytes in big-endian order as the bytes argument, a string of 16 bytes in little-endian order as the bytes_le argument, a tuple of six integers (32-bit time_low, 16-bit time_mid, 16-bit time_hi_version, 8-bit clock_seq_hi_variant, 8-bit clock_seq_low, 48-bit node) as the fields argument, or a single 128-bit integer as the int argument. When a string of hex digits is given, curly braces, hyphens, and a URN prefix are all optional. For example, these expressions all yield the same UUID:
+ 
+ UUID('{12345678-1234-5678-1234-567812345678}')
+ UUID('12345678123456781234567812345678')
+ UUID('urn:uuid:12345678-1234-5678-1234-567812345678')
+ UUID(bytes='\x12\x34\x56\x78'*4)
+ UUID(bytes_le='\x78\x56\x34\x12\x34\x12\x78\x56' +
+  '\x12\x34\x56\x78\x12\x34\x56\x78')
+ UUID(fields=(0x12345678, 0x1234, 0x5678, 0x12, 0x34, 0x567812345678))
+ UUID(int=0x12345678123456781234567812345678)
+ Exactly one of hex, bytes, bytes_le, fields, or int must be given. The version argument is optional; if given, the resulting UUID will have its variant and version number set according to RFC 4122, overriding bits in the given hex, bytes, bytes_le, fields, or int.",1,0,1,0,0,0,0,0,1,0,0,0
+84,"urlparse.urlparse(urlstring[, scheme[, allow_fragments]])
+ Parse a URL into six components, returning a 6-tuple. This corresponds to the general structure of a URL: scheme://netloc/path;parameters?query#fragment. Each tuple item is a string, possibly empty. The components are not broken up in smaller parts (for example, the network location is a single string), and % escapes are not expanded. The delimiters as shown above are not part of the result, except for a leading slash in the path component, which is retained if present. For example:
+ 
+ >>> from urlparse import urlparse
+ >>> o = urlparse('http://www.cwi.nl:80/%7Eguido/Python.html')
+ >>> o 
+ ParseResult(scheme='http', netloc='www.cwi.nl:80', path='/%7Eguido/Python.html',
+  params='', query='', fragment='')
+ >>> o.scheme
+ 'http'
+ >>> o.port
+ 80
+ >>> o.geturl()
+ 'http://www.cwi.nl:80/%7Eguido/Python.html'
+ Following the syntax specifications in RFC 1808, urlparse recognizes a netloc only if it is properly introduced by ‘//’. Otherwise the input is presumed to be a relative URL and thus to start with a path component.
+ 
+ >>> from urlparse import urlparse
+ >>> urlparse('//www.cwi.nl:80/%7Eguido/Python.html')
+ ParseResult(scheme='', netloc='www.cwi.nl:80', path='/%7Eguido/Python.html',
+  params='', query='', fragment='')
+ >>> urlparse('www.cwi.nl/%7Eguido/Python.html')
+ ParseResult(scheme='', netloc='', path='www.cwi.nl/%7Eguido/Python.html',
+  params='', query='', fragment='')
+ >>> urlparse('help/Python.html')
+ ParseResult(scheme='', netloc='', path='help/Python.html', params='',
+  query='', fragment='')
+ If the scheme argument is specified, it gives the default addressing scheme, to be used only if the URL does not specify one. The default value for this argument is the empty string.
+ 
+ If the allow_fragments argument is false, fragment identifiers are not recognized and parsed as part of the preceding component, even if the URL’s addressing scheme normally does support them. The default value for this argument is True.",1,0,0,0,0,0,0,0,1,0,0,0
+85,"class SocketServer.UDPServer(server_address, RequestHandlerClass, bind_and_activate=True)
+ This uses datagrams, which are discrete packets of information that may arrive out of order or be lost while in transit. The parameters are the same as for TCPServer.",0,1,0,0,0,0,0,0,0,0,0,0
+86,"class SimpleHTTPServer.SimpleHTTPRequestHandler(request, client_address, server)
+ This class serves files from the current directory and below, directly mapping the directory structure to HTTP requests.
+ 
+ A lot of the work, such as parsing the request, is done by the base class BaseHTTPServer.BaseHTTPRequestHandler. This class implements the do_GET() and do_HEAD() functions.",1,0,0,0,0,0,1,0,0,0,0,0
+87,"class cookielib.CookieJar(policy=None)
+ policy is an object implementing the CookiePolicy interface.
+ 
+ The CookieJar class stores HTTP cookies. It extracts cookies from HTTP requests, and returns them in HTTP responses. CookieJar instances automatically expire contained cookies when necessary. Subclasses are also responsible for storing and retrieving cookies from a file or database.",1,0,0,0,0,0,0,0,0,0,0,0
+88,"class SimpleXMLRPCServer.SimpleXMLRPCServer(addr[, requestHandler[, logRequests[, allow_none[, encoding[, bind_and_activate]]]])
+ Create a new server instance. This class provides methods for registration of functions that can be called by the XML-RPC protocol. The requestHandler parameter should be a factory for request handler instances; it defaults to SimpleXMLRPCRequestHandler. The addr and requestHandler parameters are passed to the SocketServer.TCPServer constructor. If logRequests is true (the default), requests will be logged; setting this parameter to false will turn off logging. The allow_none and encoding parameters are passed on to xmlrpclib and control the XML-RPC responses that will be returned from the server. The bind_and_activate parameter controls whether server_bind() and server_activate() are called immediately by the constructor; it defaults to true. Setting it to false allows code to manipulate the allow_reuse_address class variable before the address is bound.
+ 
+ Changed in version 2.5: The allow_none and encoding parameters were added.
+ 
+ Changed in version 2.6: The bind_and_activate parameter was added.",1,0,1,0,0,1,0,1,0,0,0,1
+89,"audioop.lin2lin(fragment, width, newwidth)
+ Convert samples between 1-, 2- and 4-byte formats.
+ 
+ Note In some audio formats, such as .WAV files, 16 and 32 bit samples are signed, but 8 bit samples are unsigned. So when converting to 8 bit wide samples for these formats, you need to also add 128 to the result:
+ new_frames = audioop.lin2lin(frames, old_width, 1)
+ new_frames = audioop.bias(new_frames, 1, 128)
+ The same, in reverse, has to be applied when converting from 8 to 16 or 32 bit width samples.",1,1,1,1,0,0,0,1,1,0,0,0
+90,"aifc.open(file[, mode])
+ Open an AIFF or AIFF-C file and return an object instance with methods that are described below. The argument file is either a string naming a file or a file object. mode must be 'r' or 'rb' when the file must be opened for reading, or 'w' or 'wb' when the file must be opened for writing. If omitted, file.mode is used if it exists, otherwise 'rb' is used. When used for writing, the file object should be seekable, unless you know ahead of time how many samples you are going to write in total and use writeframesraw() and setnframes().",1,0,1,0,0,0,0,0,0,0,0,0
+91,"Wave_write.setparams(tuple)
+ The tuple should be (nchannels, sampwidth, framerate, nframes, comptype, compname), with values valid for the set*() methods. Sets all parameters.",0,0,1,0,0,0,0,0,0,0,0,1
+92,"colorsys.rgb_to_yiq(r, g, b)
+ Convert the color from RGB coordinates to YIQ coordinates.",0,0,0,0,0,0,0,0,0,0,0,1
+93,"The sndhdr provides utility functions which attempt to determine the type of sound data which is in a file. When these functions are able to determine what type of sound data is stored in a file, they return a tuple (type, sampling_rate, channels, frames, bits_per_sample). The value for type indicates the data type and will be one of the strings 'aifc', 'aiff', 'au', 'hcom', 'sndr', 'sndt', 'voc', 'wav', '8svx', 'sb', 'ub', or 'ul'. The sampling_rate will be either the actual value or 0 if unknown or difficult to decode. Similarly, channels will be either the number of channels or 0 if it cannot be determined or if the value is difficult to decode. The value for frames will be either the number of frames or -1. The last item in the tuple, bits_per_sample, will either be the sample size in bits or 'A' for A-LAW or 'U' for u-LAW.",1,0,0,0,0,1,0,0,0,0,0,0
+94,"gettext.translation(domain[, localedir[, languages[, class_[, fallback[, codeset]]]]])
+ Return a Translations instance based on the domain, localedir, and languages, which are first passed to find() to get a list of the associated .mo file paths. Instances with identical .mo file names are cached. The actual class instantiated is either class_ if provided, otherwise GNUTranslations. The class’s constructor must take a single file object argument. If provided, codeset will change the charset used to encode translated strings.
+ 
+ If multiple files are found, later files are used as fallbacks for earlier ones. To allow setting the fallback, copy.copy() is used to clone each translation object from the cache; the actual instance data is still shared with the cache.
+ 
+ If no .mo file is found, this function raises IOError if fallback is false (which is the default), and returns a NullTranslations instance if fallback is true.
+ 
+ Changed in version 2.4: Added the codeset parameter.",1,0,0,0,0,1,0,1,0,0,0,0
+95,"locale.setlocale(category[, locale])
+ If locale is given and not None, setlocale() modifies the locale setting for the category. The available categories are listed in the data description below. locale may be a string, or an iterable of two strings (language code and encoding). If it’s an iterable, it’s converted to a locale name using the locale aliasing engine. An empty string specifies the user’s default settings. If the modification of the locale fails, the exception Error is raised. If successful, the new locale setting is returned.
+ 
+ If locale is omitted or None, the current setting for category is returned.
+ 
+ setlocale() is not thread-safe on most systems. Applications typically start with a call of
+ 
+ import locale
+ locale.setlocale(locale.LC_ALL, '')
+ This sets the locale for all categories to the user’s default setting (typically specified in the LANG environment variable). If the locale is not changed thereafter, using multithreading should not cause problems.
+ 
+ Changed in version 2.0: Added support for iterable values of the locale parameter.",1,0,0,0,1,1,0,0,1,0,0,0
+96,"The Cmd class provides a simple framework for writing line-oriented command interpreters. These are often useful for test harnesses, administrative tools, and prototypes that will later be wrapped in a more sophisticated interface.
+ 
+ class cmd.Cmd([completekey[, stdin[, stdout]]])
+ A Cmd instance or subclass instance is a line-oriented interpreter framework. There is no good reason to instantiate Cmd itself; rather, it’s useful as a superclass of an interpreter class you define yourself in order to inherit Cmd’s methods and encapsulate action methods.
+ 
+ The optional argument completekey is the readline name of a completion key; it defaults to Tab. If completekey is not None and readline is available, command completion is done automatically.
+ 
+ The optional arguments stdin and stdout specify the input and output file objects that the Cmd instance or subclass instance will use for input and output. If not specified, they will default to sys.stdin and sys.stdout.
+ 
+ If you want a given stdin to be used, make sure to set the instance’s use_rawinput attribute to False, otherwise stdin will be ignored.
+ 
+ Changed in version 2.3: The stdin and stdout parameters were added.",1,1,0,1,0,0,0,1,0,0,0,1
+97,"Most of the time, the Tkinter module is all you really need, but a number of additional modules are available as well. The Tk interface is located in a binary module named _tkinter. This module contains the low-level interface to Tk, and should never be used directly by application programmers. It is usually a shared library (or DLL), but might in some cases be statically linked with the Python interpreter.
+ 
+ In addition to the Tk interface module, Tkinter includes a number of Python modules. The two most important modules are the Tkinter module itself, and a module called Tkconstants. The former automatically imports the latter, so to use Tkinter, all you need to do is to import one module:
+ 
+ import Tkinter
+ Or, more often:
+ 
+ from Tkinter import *
+ class Tkinter.Tk(screenName=None, baseName=None, className='Tk', useTk=1)
+ The Tk class is instantiated without arguments. This creates a toplevel widget of Tk which usually is the main window of an application. Each instance has its own associated Tcl interpreter.
+ 
+ Changed in version 2.4: The useTk parameter was added.
+ 
+ Tkinter.Tcl(screenName=None, baseName=None, className='Tk', useTk=0)
+ The Tcl() function is a factory function which creates an object much like that created by the Tk class, except that it does not initialize the Tk subsystem. This is most often useful when driving the Tcl interpreter in an environment where one doesn’t want to create extraneous toplevel windows, or where one cannot (such as Unix/Linux systems without an X server). An object created by the Tcl() object can have a Toplevel window created (and the Tk subsystem initialized) by calling its loadtk() method.
+ 
+ New in version 2.4",1,0,1,1,0,0,1,0,1,1,0,0
+98,"class tkinter.tix.Tk(screenName=None, baseName=None, className='Tix')
+ Toplevel widget of Tix which represents mostly the main window of an application. It has an associated Tcl interpreter.
+ 
+ Classes in the tkinter.tix module subclasses the classes in the tkinter. The former imports the latter, so to use tkinter.tix with Tkinter, all you need to do is to import one module. In general, you can just import tkinter.tix, and replace the toplevel call to tkinter.Tk with tix.Tk:
+ 
+ from tkinter import tix
+ from tkinter.constants import *
+ root = tix.Tk()
+ To use tkinter.tix, you must have the Tix widgets installed, usually alongside your installation of the Tk widgets. To test your installation, try the following:
+ 
+ from tkinter import tix
+ root = tix.Tk()
+ root.tk.eval('package require Tix')
+ If this fails, you have a Tk installation problem which must be resolved before proceeding. Use the environment variable TIX_LIBRARY to point to the installed Tix library directory, and make sure you have the dynamic object library (tix8183.dll or libtix8183.so) in the same directory that contains your Tk dynamic object library (tk8183.dll or libtk8183.so). The directory with the dynamic object library should also have a file called pkgIndex.tcl (case sensitive), which contains the line:
+ 
+ package ifneeded Tix 8.1 [list load ""[file join $dir tix8183.dll]"" Tix]",0,0,1,0,0,0,0,1,1,0,0,0
+99,"turtle.fd(distance)
+ Parameters: distance – a number (integer or float)
+ Move the turtle forward by the specified distance, in the direction the turtle is headed.
+ 
+ >>> turtle.position()
+ (0.00,0.00)
+ >>> turtle.forward(25)
+ >>> turtle.position()
+ (25.00,0.00)
+ >>> turtle.forward(-75)
+ >>> turtle.position()
+ (-50.00,0.00)",1,0,0,0,0,0,0,0,1,0,0,0
+100,"Named tuples assign meaning to each position in a tuple and allow for more readable, self-documenting code. They can be used wherever regular tuples are used, and they add the ability to access fields by name instead of position index.
+
+collections.namedtuple(typename, field_names[, verbose])
+Returns a new tuple subclass named typename. The new subclass is used to create tuple-like objects that have fields accessible by attribute lookup as well as being indexable and iterable. Instances of the subclass also have a helpful docstring (with typename and field_names) and a helpful __repr__() method which lists the tuple contents in a name=value format.
+
+The field_names are a single string with each fieldname separated by whitespace and/or commas, for example 'x y' or 'x, y'. Alternatively, field_names can be a sequence of strings such as ['x', 'y'].
+
+Any valid Python identifier may be used for a fieldname except for names starting with an underscore. Valid identifiers consist of letters, digits, and underscores but do not start with a digit or underscore and cannot be a keyword such as class, for, return, global, pass, print, or raise.
+
+If verbose is true, the class definition is printed just before being built.
+
+Named tuple instances do not have per-instance dictionaries, so they are lightweight and require no more memory than regular tuples.
+
+New in version 2.6.
+
+Example:
+
+>>> Point = namedtuple('Point', 'x y')
+>>> p = Point(11, y=22)     # instantiate with positional or keyword arguments
+>>> p[0] + p[1]             # indexable like the plain tuple (11, 22)
+33
+>>> x, y = p                # unpack like a regular tuple
+>>> x, y
+(11, 22)
+>>> p.x + p.y               # fields also accessible by name
+33
+>>> p                       # readable __repr__ with a name=value style
+Point(x=11, y=22)
+
+>>> Point = namedtuple('Point', 'x y', verbose=True) # show the class definition
+class Point(tuple):
+        'Point(x, y)'
+
+        __slots__ = ()
+
+        _fields = ('x', 'y')
+
+        def __new__(_cls, x, y):
+            return _tuple.__new__(_cls, (x, y))
+
+        @classmethod
+        def _make(cls, iterable, new=tuple.__new__, len=len):
+            'Make a new Point object from a sequence or iterable'
+            result = new(cls, iterable)
+            if len(result) != 2:
+                raise TypeError('Expected 2 arguments, got %d' % len(result))
+            return result
+
+        def __repr__(self):
+            return 'Point(x=%r, y=%r)' % self
+
+        def _asdict(t):
+            'Return a new dict which maps field names to their values'
+            return {'x': t[0], 'y': t[1]}
+
+        def _replace(_self, **kwds):
+            'Return a new Point object replacing specified fields with new values'
+            result = _self._make(map(kwds.pop, ('x', 'y'), _self))
+            if kwds:
+                raise ValueError('Got unexpected field names: %r' % kwds.keys())
+            return result
+
+        def __getnewargs__(self):
+            return tuple(self)
+
+        x = _property(_itemgetter(0))
+        y = _property(_itemgetter(1))
+Named tuples are especially useful for assigning field names to result tuples returned by the csv or sqlite3 modules:
+
+EmployeeRecord = namedtuple('EmployeeRecord', 'name, age, title, department, paygrade')
+
+import csv
+for emp in map(EmployeeRecord._make, csv.reader(open(""employees.csv"", ""rb""))):
+    print emp.name, emp.title
+
+import sqlite3
+conn = sqlite3.connect('/companydata')
+cursor = conn.cursor()
+cursor.execute('SELECT name, age, title, department, paygrade FROM employees')
+for emp in map(EmployeeRecord._make, cursor.fetchall()):
+    print emp.name, emp.title
+In addition to the methods inherited from tuples, named tuples support three additional methods and one attribute. To prevent conflicts with field names, the method and attribute names start with an underscore.",1,1,1,1,0,0,0,1,1,0,0,0
