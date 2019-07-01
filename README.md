@@ -22,7 +22,21 @@ path to the embeddings of each model:
  SO:
 	Can be requested form the authors.
 
- SOAPI: 
+ SOAPI:
 	Can be requested form the authors.
-  
+
 The complete dataset can be requested from the authors or should be scraped from the Internet.
+
+When (re-)using (part) of this work, please cite the following publication:
+
+```
+@inproceedings{FMM19,
+  title={On Using Machine Learning to Identify Knowledge in API Reference Documentation},
+  author={Fucci, Davide and M. Alizadeh B., Alireza and Maalej Walid},
+  booktitle={27th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering},
+  pages={103--112},
+  year={2019},
+  doi={10.1145/3338906.3338943}
+  organization={IEEE}
+}
+```
