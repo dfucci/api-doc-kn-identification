@@ -2,7 +2,7 @@
 
 ## Terms of use
 Please, see our [license](LICENSE.md).  
-When (re-)using (part) of this work, please cite the following publication:
+When (re-)using (part) of this work, you must cite the following publication:
 
 ```
 @inproceedings{FMM19,
