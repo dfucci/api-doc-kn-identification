@@ -7,7 +7,7 @@ When (re-)using (part) of this work, you must cite the following publication:
 ```
 @inproceedings{FMM19,
   title={On Using Machine Learning to Identify Knowledge in API Reference Documentation},
-  author={Fucci, Davide and M. Alizadeh B., Alireza and Maalej, Walid},
+  author={Fucci, Davide and Mollaalizadehbahnemiri Alireza and Maalej, Walid},
   booktitle={27th ACM Joint European Software Engineering Conference and Symposium on the Foundations of Software Engineering},
   pages={103--112},
   year={2019},
