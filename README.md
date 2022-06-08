@@ -36,11 +36,11 @@ path to the embeddings of each model:
  CC & CCOTF:
   http://nlp.stanford.edu/data/glove.840B.300d.zip
 
- SO:
-	Can be requested form the authors.
+ StackOverflow (SO):
+	Can be requested from the authors.
 
- SOAPI:
-	Can be requested form the authors.
+ StackOverflow API (SOAPI):
+	Can be requested from the authors.
 
-The complete dataset can be requested from the authors or should be scraped from the Internet.
+
 
